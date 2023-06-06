@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishNotation", "PolishNot
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ShadowLengthCalculator", "ShadowLengthCalculator\ShadowLengthCalculator.fsproj", "{AFC2977C-5487-4A43-B6F7-9829E543EED4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishNotationTests", "PolishNotationTests\PolishNotationTests.csproj", "{050CD306-2226-42A6-BFE5-A81DAF10C591}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,9 +24,14 @@ Global
 		{AFC2977C-5487-4A43-B6F7-9829E543EED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFC2977C-5487-4A43-B6F7-9829E543EED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFC2977C-5487-4A43-B6F7-9829E543EED4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050CD306-2226-42A6-BFE5-A81DAF10C591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050CD306-2226-42A6-BFE5-A81DAF10C591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050CD306-2226-42A6-BFE5-A81DAF10C591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050CD306-2226-42A6-BFE5-A81DAF10C591}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{05AC4EE7-279E-4CD4-9850-D655166B04E4} = {76B4BFE5-6893-48A3-925A-A1ECCAE4E48A}
 		{AFC2977C-5487-4A43-B6F7-9829E543EED4} = {CF95B491-C7D4-494A-AED6-5CE689A634DD}
+		{050CD306-2226-42A6-BFE5-A81DAF10C591} = {76B4BFE5-6893-48A3-925A-A1ECCAE4E48A}
 	EndGlobalSection
 EndGlobal

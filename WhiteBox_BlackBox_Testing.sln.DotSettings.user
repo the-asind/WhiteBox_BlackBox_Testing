@@ -4,6 +4,9 @@
   &lt;Or&gt;&#xD;
     &lt;ProjectFile&gt;AFC2977C-5487-4A43-B6F7-9829E543EED4/f:WhiteBoxTests.fs&lt;/ProjectFile&gt;&#xD;
     &lt;ProjectFile&gt;AFC2977C-5487-4A43-B6F7-9829E543EED4/f:BlackBoxTests.fs&lt;/ProjectFile&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;MSTest::050CD306-2226-42A6-BFE5-A81DAF10C591::net6.0::PolishNotationTests.Tests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	</wpf:ResourceDictionary>
