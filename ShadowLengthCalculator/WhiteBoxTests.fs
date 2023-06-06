@@ -6,7 +6,7 @@ open NUnit.Framework
 open Program
 
 [<TestFixture>]
-type SegmentTests() =
+type WhiteBoxTests() =
     [<Test>]
     member this.``parseSegment should return Some segment for valid input``() =
         let input = "1 5"

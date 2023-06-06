@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="Program.fs" />
         <Compile Include="WhiteBoxTests.fs" />
+        <Compile Include="BlackBoxTests.fs" />
     </ItemGroup>
 
     <ItemGroup>
