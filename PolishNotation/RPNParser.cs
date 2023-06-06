@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace PolishNotation;
 
@@ -18,100 +17,96 @@ public class RpnParser
 
     public string Parse(string expression)
     {
-        CheckExpression(expression);
+        ValidateExpression(expression);
         var infixExpression = GetInfixExpression(expression);
-        var postfixExpression = "";
+        var postfixExpressionBuilder = new StringBuilder();
         var stack = new Stack<char>();
 
         for (var i = 0; i < infixExpression.Length; i++)
         {
-            var c = infixExpression[i];
+            var character = infixExpression[i];
 
-            if (char.IsDigit(c))
+            if (char.IsDigit(character))
             {
-                postfixExpression += GetNumberString(infixExpression, ref i) + " ";
+                postfixExpressionBuilder.Append(GetNumberString(infixExpression, ref i)).Append(' ');
             }
             else
-                switch (c)
+            {
+                if (character == '(')
                 {
-                    case '(':
-                        stack.Push(c);
-                        break;
-                    case ')':
+                    stack.Push(character);
+                }
+                else if (character == ')')
+                {
+                    while (stack.Count > 0 && stack.Peek() != '(') postfixExpressionBuilder.Append(stack.Pop());
+                    stack.Pop();
+                }
+                else
+                {
+                    if (IsOperator(character))
                     {
-                        while (stack.Count > 0 && stack.Peek() != '(')
-                            postfixExpression += stack.Pop();
-                        stack.Pop();
-                        break;
-                    }
-                    default:
-                    {
-                        if (_operationPriority.ContainsKey(c))
-                        {
-                            var op = c;
+                        var op = character;
 
-                            if (op == '-' &&
-                                (i == 0 || (i > 1 && _operationPriority.ContainsKey(infixExpression[i - 1]))))
-                                op = '~';
+                        if (op == '-' && (i == 0 || (i > 1 && IsOperator(infixExpression[i - 1])))) op = '~';
 
-                            while (stack.Count > 0 && _operationPriority[stack.Peek()] >= _operationPriority[op])
-                                postfixExpression += stack.Pop() + " ";
+                        while (stack.Count > 0 && GetOperatorPriority(stack.Peek()) >= GetOperatorPriority(op))
+                            postfixExpressionBuilder.Append(stack.Pop()).Append(" ");
 
-                            stack.Push(op);
-                        }
-
-                        break;
+                        stack.Push(op);
                     }
                 }
+            }
         }
 
-        return stack.Aggregate(postfixExpression, (current, op) => current + op);
+        while (stack.Count > 0) postfixExpressionBuilder.Append(stack.Pop());
+
+        return postfixExpressionBuilder.ToString();
     }
+
+    private bool IsOperator(char c)
+    {
+        return _operationPriority.ContainsKey(c);
+    }
+
+    private int GetOperatorPriority(char c)
+    {
+        return _operationPriority[c];
+    }
+
 
     private static string GetInfixExpression(string expression)
     {
         return expression.Replace(" ", "").Replace(".", ",");
     }
 
-    private static void CheckExpression(string expression)
+    private static void ValidateExpression(string expression)
     {
-        if (!Regex.IsMatch(expression, @"^[\d\-+\*\/\s\(\)\^\.\,]+$"))
+        if (string.IsNullOrEmpty(expression))
+            throw new ArgumentException("Input string is empty");
+        if (!IsExpressionValid(expression))
             throw new ArgumentException("Input string contains invalid characters");
-        if (!CheckParenthesesBalance(expression))
+        if (!IsParenthesesBalanced(expression))
             throw new ArgumentException("Input string has unpaired brackets");
     }
 
-    private static string GetNumberString(string expression, ref int position)
+    private static bool IsExpressionValid(string expression)
     {
-        var strNumber = new StringBuilder();
+        var allowedChars = "0123456789-+*/()^.,";
 
-        for (; position < expression.Length; position++)
-        {
-            var number = expression[position];
-            if (char.IsDigit(number))
-            {
-                strNumber.Append(number);
-            }
-            else if (number == ',')
-            {
-                strNumber.Append(number);
-            }
-            else
-            {
-                position--;
-                break;
-            }
-        }
+        foreach (var c in expression)
+            if (!allowedChars.Contains(c))
+                return false;
 
-        return strNumber.ToString();
+        return true;
     }
 
-    private static bool CheckParenthesesBalance(string expression)
+    private static bool IsParenthesesBalanced(string expression)
     {
         var balance = 0;
+
         foreach (var t in expression)
-        {
-            switch (t) {
+            switch (t)
+            {
                 case '(':
                     balance++;
                     break;
@@ -123,8 +118,28 @@ public class RpnParser
                     break;
                 }
             }
-        }
 
         return balance == 0;
+    }
+
+    private static string GetNumberString(string expression, ref int position)
+    {
+        var strNumber = new StringBuilder();
+        for (; position < expression.Length; position++)
+        {
+            var character = expression[position];
+
+            if (char.IsDigit(character) || character == ',')
+            {
+                strNumber.Append(character);
+            }
+            else
+            {
+                position--;
+                break;
+            }
+        }
+
+        return strNumber.ToString();
     }
 }
